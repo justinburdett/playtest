@@ -1,0 +1,16 @@
+.content {
+  width: 100%;
+}
+
+.card {
+  width: 33.3%;
+  height: 292px;
+  float: left;
+  border: 1px solid black;
+  page-break-before: auto;
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
+}
