@@ -1,6 +1,6 @@
 # Playtest
 
-This is a simple ruby script that generates a PDF suitable for prototyping physical card games like Magic: the Gathering or Ascension.
+This is a simple ruby script that generates a PDF suitable for prototyping or creating print and play versions of physical card games. Great for aspiring game designers!
 
 The script interacts with two files:
 
