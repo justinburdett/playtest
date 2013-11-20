@@ -28,7 +28,7 @@ cards.each do |card, details|
   card_count = card_count + 1
 end
 
-html << "</table></body></html>"\
+html << "</table></body></html>"
 
 # Generate the PDF using the HTML we've generated
 kit = PDFKit.new(html, :page_size => 'Letter', :print_media_type => true)
