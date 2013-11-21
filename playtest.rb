@@ -10,22 +10,25 @@ html << "<html><body><table class='content'>"
 
 card_count = 1
 cards.each do |card, details|
-  # Start a new row if it's been 3 cards
-  if card_count % 3 == 1
-  	html << "<tr>"
-  end
+  quantity = details["quantity"]
+  quantity.times do |card_instance|
+    # Start a new row if it's been 3 cards
+    if card_count % 3 == 1
+  	  html << "<tr>"
+    end
 
-  # Display the card contents
-  html << "<td class='card'>"
-  html << "<span class='bold'>#{card} #{details['cost']}</span>"
-  html << "<p>#{details['text']}</p>"
-  html << "</td>"
+    # Display the card contents
+    html << "<td class='card'>"
+    html << "<span class='bold'>#{card} #{details['cost']}</span>"
+    html << "<p>#{details['text']}</p>"
+    html << "</td>"
 
-  # Close the row if there has been three cards in the row
-  if card_count % 3 == 0
-  	html << "</tr>"
+    # Close the row if there has been three cards in the row
+    if card_count % 3 == 0
+  	  html << "</tr>"
+    end
+    card_count = card_count + 1
   end
-  card_count = card_count + 1
 end
 
 html << "</table></body></html>"
