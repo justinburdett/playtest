@@ -1,5 +1,6 @@
 require 'yaml'
 require 'pdfkit'
+require 'highline/import'
 
 # Load the cards from our cards file
 cards = YAML.load_file("cards.yml")
@@ -39,5 +40,9 @@ kit = PDFKit.new(html, :page_size => 'Letter', :print_media_type => true)
 # Add the external cards.css stylesheet to our PDF
 kit.stylesheets << 'cards.css'
 
+# Ask user for filename
+filename = ask("Different filename? (enter for playtest.pdf): ")
+filename = "playtest.pdf" if filename.empty?
+
 # Save the PDF to our machine
-file = kit.to_file('playtest.pdf')
+file = kit.to_file(filename)
