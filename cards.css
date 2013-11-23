@@ -3,13 +3,25 @@
 }
 
 .card {
-  width: 33.3%;
-  height: 279px;
+  display: table;
+  width: 33%;
+  height: 282px;
   float: left;
-  border: 1px solid black;
-  page-break-before: auto;
+  border: 2px solid black;
   text-align: center;
   font-family: arial;
+}
+
+.card-text {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.row {
+  page-break-before: auto;
 }
 
 .bold {
