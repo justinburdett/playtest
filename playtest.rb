@@ -8,32 +8,34 @@ cards = YAML.load_file("cards.yml")
 html = ""
 html << "<html>"
 html << "<head><link rel='stylesheet' href='cards.css' type='text/css'></head>"
-html << "<body><table class='content'>"
+html << "<body>"
 
 card_count = 1
-cards.each do |card, details|
-  quantity = details["quantity"]
+cards.each do |card_name, card|
+  card["name"] = card_name
+  quantity = card.delete("quantity")
   quantity.times do |card_instance|
     # Start a new row if it's been 3 cards
     if card_count % 3 == 1
-  	  html << "<tr>"
+  	  html << "<div class='row'>"
     end
 
     # Display the card contents
-    html << "<td class='card'>"
-    html << "<span class='bold'>#{card} #{details['cost']}</span>"
-    html << "<p>#{details['text']}</p>"
-    html << "</td>"
+    html << "<div class='card'>"
+    card.each do |attribute, value|
+      html << "  <div class='#{attribute}'>#{value}</div>"
+    end
+    html << "</div>"
 
     # Close the row if there has been three cards in the row
     if card_count % 3 == 0
-  	  html << "</tr>"
+      html << "</div>"
     end
     card_count = card_count + 1
   end
 end
 
-html << "</table></body></html>"
+html << "</body></html>"
 
 File.open('playtest.html', 'w') do |f|
   f.puts html
@@ -47,4 +49,3 @@ kit.stylesheets << 'cards.css'
 
 # Save the PDF to our machine
 file = kit.to_file('playtest.pdf')
-
