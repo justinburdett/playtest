@@ -12,24 +12,27 @@ class Template
   end
 
   def <<(name, details)
-  puts details.inspect
     additional_classes = details.delete('css')
     quantity = details.delete('quantity') || 1
-    card_text = details.each do |k,v| "<span class=#{k}>#{v}</span>"; end
-    
+    card_text = "<dl>"
+    details.each do |k,v| card_text += "<dt class=\"#{k}\">#{k}</dt><dd class=\"#{k}\">#{v}</dd>"; end
     quantity.times { @document += "<div class=\"card #{additional_classes}\"><h2>#{name}</h2>#{card_text}</div>\r\n" }
     @cards_added += quantity
     puts "Added #{quantity} '#{name}' (#{@cards_added} total)"
   end
  
-  def to_html(destination = "exported_#{@html}")
+  def to_html(destination = "export/exported_#{@html}")
     css_data = File.read(@css)
-    export = "<html><head><style type=\"text/css\" media=\"all\">#{css_data}</style></head><body class=\"content\">#{@document}</body></html>"
+    export = "<html>
+       <head><style type=\"text/css\" media=\"all\">#{css_data}</style></head>
+       <body class=\"content\">#{@document}
+       </body>
+       </html>"
     File.open(destination, 'w') { |file| file.write(export) }
     puts "Saved #{@cards_added} cards to #{destination} (#{File.size?(destination)})"
   end
  
-  def to_pdf(destination = "#{@html}.pdf")
+  def to_pdf(destination = "export/#{@html}.pdf")
     # Generate the PDF using the HTML we've generated
     kit = PDFKit.new("<html><body class=\"content\">#{@document}</body></html>", :page_size => 'Letter', :print_media_type => true)
 
