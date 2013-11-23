@@ -4,11 +4,12 @@
 
 .card {
   width: 33.3%;
-  height: 292px;
+  height: 279px;
   float: left;
   border: 1px solid black;
   page-break-before: auto;
   text-align: center;
+  font-family: arial;
 }
 
 .bold {
