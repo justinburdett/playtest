@@ -21,8 +21,9 @@ cards.each do |card, details|
 
     # Display the card contents
     html << "<div class='card'>"
+    html << "  <div class='cost'>#{details['cost']}</div>"
     html << "  <div class='card-text'>"
-    html << "    <span class='bold'>#{card} #{details['cost']}</span>"
+    html << "    <span class='bold'>#{card}</span>"
     html << "    <p>#{details['text']}</p>"
     html << "  </div>"
     html << "</div>"
