@@ -11,8 +11,9 @@ html << "<head><link rel='stylesheet' href='cards.css' type='text/css'></head>"
 html << "<body>"
 
 card_count = 1
-cards.each do |card, details|
-  quantity = details["quantity"]
+cards.each do |card_name, card|
+  card["name"] = card_name
+  quantity = card.delete("quantity")
   quantity.times do |card_instance|
     # Start a new row if it's been 3 cards
     if card_count % 3 == 1
@@ -21,11 +22,9 @@ cards.each do |card, details|
 
     # Display the card contents
     html << "<div class='card'>"
-    html << "  <div class='cost'>#{details['cost']}</div>"
-    html << "  <div class='card-text'>"
-    html << "    <span class='bold'>#{card}</span>"
-    html << "    <p>#{details['text']}</p>"
-    html << "  </div>"
+    card.each do |attribute, value|
+      html << "  <div class='#{attribute}'>#{value}</div>"
+    end
     html << "</div>"
 
     # Close the row if there has been three cards in the row
@@ -50,4 +49,3 @@ kit.stylesheets << 'cards.css'
 
 # Save the PDF to our machine
 file = kit.to_file('playtest.pdf')
-
