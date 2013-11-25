@@ -10,6 +10,8 @@ Download this project and install the required dependencies by running ``bundle 
 
 Start the script by running ``ruby playtest.rb`` from the command line.
 
+Card data is loaded from the ``cards.yml`` file. You'll want to customize this file to add your custom cards. You can add additional details about each card, but you'll have to update the output accordingly.
+
 You can customize the output by updating the ``default.css`` and ``default.html`` files to your liking. The outputted PDF and HTML is exported to the ``export/`` folder.
 
 ## Known Issues
