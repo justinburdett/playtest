@@ -8,5 +8,5 @@ template = Template.new
 
 test_deck.map(&template.method(:<<))
 
-template.to_pdf
 template.to_html
+template.to_pdf

@@ -34,6 +34,9 @@ class Template
  
   def to_pdf(destination = "export/#{@html}.pdf")
     # Generate the PDF using the HTML we've generated
+    PDFKit.configure do |config|
+     config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
+    end
     kit = PDFKit.new("<html><body class=\"content\">#{@document}</body></html>", :page_size => 'Letter', :print_media_type => true)
 
     # Add the external cards.css stylesheet to our PDF
