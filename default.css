@@ -1,0 +1,35 @@
+* { margin: 0; padding: 0; }
+.content {
+  width: width: 670px;
+  border: 0;
+  margin: 0 5%;
+  padding: 0;
+  float: none !important;
+}
+
+.card {
+  width: 221px;
+  height: 292px;
+  float: left;
+  border: 1px dotted #999;
+  /*page-break-before: auto;*/
+  text-align: center;
+}
+.card dl {
+}
+.card dl dt {
+  font-weight: bold;
+  clear:left;
+  float: left; 
+  width: 50px;
+  margin-bottom: 5px;
+}
+.card dl dd {
+  float: left;
+  width: 165px;
+  margin-bottom: 5px;
+}
+
+.bold {
+  font-weight: bold;
+}
