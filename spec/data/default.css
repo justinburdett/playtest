@@ -1,23 +1,21 @@
 * { margin: 0; padding: 0; }
 .content {
-  width: 100%;
+  width: width: 670px;
+  border: 0;
+  margin: 0 5%;
+  padding: 0;
+  float: none !important;
 }
-.content table {
-  border-spacing: 0;
-  border-collapse: collapse;
-  margin: 2px;
-}
-.poker tr td {
-  width: 33.3%;
-  height: 292px;
-}
+
 .card {
+  width: 221px;
+  height: 292px;
+  float: left;
   border: 1px dotted #999;
-  page-break-before: auto;
+  /*page-break-before: auto;*/
   text-align: center;
 }
 .card dl {
-  font-size: 12px;
 }
 .card dl dt {
   font-weight: bold;
