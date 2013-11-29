@@ -10,6 +10,7 @@ class Template
     @document = ""
     @cards = {}
     @pages = []
+    @cards_rendered = 0
   end
 
   def <<(details)
@@ -44,20 +45,20 @@ class Template
        </body>
        </html>"
     File.open(destination, 'w') { |file| file.write(export) }
-    puts "Saved #{@cards_added} cards to #{destination} (#{File.size?(destination)})"
+    puts "Saved #{@cards_rendered} cards to #{destination} (#{File.size?(destination)})"
   end
  
   def to_pdf(destination = "export/#{@html}.pdf")
     render_cards
     # Generate the PDF using the HTML we've generated
-    kit = PDFKit.new("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body class=\"content\">#{@document}</body></html>", :page_size => 'Letter', :print_media_type => true)
+    kit = PDFKit.new("#{@document}", :page_size => "Letter", :print_media_type => true)
 
     # Add the external cards.css stylesheet to our PDF
     kit.stylesheets << @css
 
     # Save the PDF to our machine
     kit.to_file(destination)
-    puts "Saved #{@cards_added} cards to #{destination} (#{File.size?(destination)})"
+    puts "Saved #{@cards_rendered} cards to #{destination} (#{File.size?(destination)})"
   end
   
 private
@@ -68,12 +69,12 @@ private
     cards_rendered = 0
     @cards.each do |name, card_details|
       additional_classes = card_details.delete("css")
-      quantity = card_details.delete("quantity")
+      quantity = card_details["quantity"]
       card_text = "<h2>#{name.to_s}</h2>"
       card_text += "<dl>"
       card_details.each do |k,v| card_text += "<dt class=\"#{k}\">#{k}</dt><dd class=\"#{k}\">#{v}</dd>"; end
       card_text += "</dl>"
-      quantity.times do |i|
+      quantity.to_i.times do |i|
         # We need to create a new table every 9 cards
         @document += "<table class=\"#{card_type}\">" if (cards_rendered % 9 == 0)
         # We also need a new table row every 3 cards
