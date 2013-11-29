@@ -54,6 +54,6 @@ file = kit.to_file('playtest.pdf')
 =======
 test_deck.map(&template.method(:<<))
 
-template.to_pdf
+#template.to_pdf
 template.to_html
 >>>>>>> 3554b150bad01c150ef8069dba3294aab130de6d
