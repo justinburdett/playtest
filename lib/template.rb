@@ -37,6 +37,7 @@ class Template
     PDFKit.configure do |config|
      config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
     end
+    
     kit = PDFKit.new("<html><body class=\"content\">#{@document}</body></html>", :page_size => 'Letter', :print_media_type => true)
 
     # Add the external cards.css stylesheet to our PDF
