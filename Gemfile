@@ -2,5 +2,4 @@ source 'https://rubygems.org'
 
 gem 'rspec'
 gem 'factory_girl'
-gem 'wkhtmltopdf'
-gem 'pdfkit'
+gem 'prawn', :git => 'https://github.com/prawnpdf/prawn.git'
