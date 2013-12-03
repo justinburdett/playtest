@@ -5,15 +5,23 @@ class Deck
   attr_reader :cards
 
   def initialize (card_source = "cards.yml")
-    @card_source = card_source
-   
     # Load the cards from our cards file
-    @cards = YAML.load_file(@card_source)
+    load(card_source)
+  end
+  
+  def load(source_file)
+    begin
+      @cards = YAML.load_file(source_file)
+      puts "Loaded #{@cards.count} records from #{File.realpath(source_file)}"
+    rescue Exception => e
+      puts "Cannot access #{source_file}"
+    end
   end
   
   def each(&block)
     @cards.each do |name, details|
-      yield(name, details)
+      details["name"] = name
+      yield(details)
     end
   end
 
