@@ -1,4 +1,5 @@
-require 'pdfkit'
+require 'prawn'
+require "prawn/measurement_extensions" 
 
 class Template
 
@@ -48,19 +49,46 @@ class Template
   end
  
   def to_pdf(destination = "export/#{@html}.pdf")
-    render_cards
+    # Create the document
+    pdf = Prawn::Document.new
+    
     # Generate the PDF using the HTML we've generated
-    kit = PDFKit.new("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body class=\"content\">#{@document}</body></html>", :page_size => 'Letter', :print_media_type => true)
-
-    # Add the external cards.css stylesheet to our PDF
-    kit.stylesheets << @css
+    render_poker_cards_to_pdf(pdf)
 
     # Save the PDF to our machine
-    kit.to_file(destination)
+    pdf.render_file destination
     puts "Saved #{@cards_added} cards to #{destination} (#{File.size?(destination)})"
   end
   
 private
+  def render_poker_cards_to_pdf(pdf)
+    cards_drawn = 0
+    pdf.define_grid(columns: 3, rows: 3, gutter: 0)
+    @cards.each do |card|
+      card_name = card[1].delete("name")
+      
+      card[1].delete("quantity").times {
+        pdf.start_new_page if ((cards_drawn > 0) && (cards_drawn % 9 == 0))
+        pdf.grid((cards_drawn % 9) / 3, cards_drawn % 3).bounding_box do |cell|
+          # Draw Card outline
+          pdf.transparent(0.2) { pdf.stroke_bounds }
+          # Write the card title
+          pdf.pad(10) { 
+            pdf.indent(10) {
+              pdf.text(card_name, size: 18, style: :bold, overflow: :shrink_to_fit) 
+            }
+          }
+          # Write the card body
+          card[1].each do |k,v| 
+            pdf.indent(10) { pdf.text("#{k} #{v.inspect}") }
+            pdf.move_down(5)
+          end
+        end
+        cards_drawn += 1
+      }
+    end
+  end
+
   def render_cards(card_type = "poker")
     # Reset the document property so that we can re-render if necessary
     @document = ""

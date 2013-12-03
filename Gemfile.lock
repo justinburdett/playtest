@@ -1,20 +1,38 @@
+GIT
+  remote: https://github.com/prawnpdf/prawn.git
+  revision: def84646c4f2f4de8c40ad4ade3b0c24f1dce7d4
+  specs:
+    prawn (1.0.0.rc2)
+      afm
+      pdf-reader (~> 1.2)
+      ruby-rc4
+      ttfunk (~> 1.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
+    Ascii85 (1.0.2)
     activesupport (4.0.1)
       i18n (~> 0.6, >= 0.6.4)
       minitest (~> 4.2)
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
+    afm (0.2.0)
     atomic (1.1.14)
     diff-lcs (1.2.5)
     factory_girl (4.3.0)
       activesupport (>= 3.0.0)
+    hashery (2.1.1)
     i18n (0.6.5)
     minitest (4.7.5)
     multi_json (1.8.2)
-    pdfkit (0.5.4)
+    pdf-reader (1.3.3)
+      Ascii85 (~> 1.0.0)
+      afm (~> 0.2.0)
+      hashery (~> 2.0)
+      ruby-rc4
+      ttfunk
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -23,16 +41,16 @@ GEM
     rspec-expectations (2.14.4)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.14.4)
+    ruby-rc4 (0.1.5)
     thread_safe (0.1.3)
       atomic
+    ttfunk (1.0.3)
     tzinfo (0.3.38)
-    wkhtmltopdf (0.1.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   factory_girl
-  pdfkit
+  prawn!
   rspec
-  wkhtmltopdf
