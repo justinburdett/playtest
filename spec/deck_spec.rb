@@ -4,7 +4,8 @@ describe "Deck" do
 
   let!(:card_source) { "spec/data/cards.yml" }
   let!(:alternate_card_source) { "spec/data/alternate_cards.yml" }
-
+  let!(:deck) { Deck.new(card_source) }
+  
   describe "Constructor" do
     it "instantiates with no arguments" do
       expect(Deck.new).to be_instance_of(Deck)
@@ -17,17 +18,16 @@ describe "Deck" do
   end
 
   describe "Attributes" do
-    let!(:deck) { Deck.new }
+    
   
     it "can access the cards read-only" do
+    puts Dir.pwd
       expect(deck.cards.count).to_not be_nil
       expect { deck.cards = 5 }.to raise_error(NoMethodError)
     end
   end
 
   describe "Methods" do
-    let!(:deck) { Deck.new }
-  
     it "can load a new YAML file" do
       expect {
         deck.load(alternate_card_source)

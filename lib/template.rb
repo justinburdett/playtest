@@ -1,6 +1,3 @@
-require 'prawn'
-require "prawn/measurement_extensions" 
-
 class Template
 
   attr_reader :html, :css, :document
