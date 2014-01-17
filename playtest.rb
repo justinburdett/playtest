@@ -4,10 +4,12 @@ require 'rubygems'
 require 'bundler/setup'
 require './lib/deck.rb'
 require './lib/template.rb'
+require './lib/pdf_template.rb'
+require './lib/html_template.rb'
 
 # Use the default OptionParser for CLI
 require 'optparse'
-options = {}
+options = {cards: "import/cards.yml", format: "pdf", css: nil, output: nil}
 option_parser = OptionParser.new do |opts|
 
   # Switches
@@ -16,33 +18,37 @@ option_parser = OptionParser.new do |opts|
   end
   
   # Flags
-  opts.on("-f FORMAT", "--format FORMAT") do |format|
-    format.downcase!
-    unless %w(pdf html).include?(format)
-      raise ArgumentError, "Format must be either 'pdf' or 'html', received #{format}"
-    end
-    options[:format] = format
-  end
   opts.on("-c CARDS", "--cards CARDS") do |cards|
     unless File.exist?(cards)
       raise ArgumentError, "Could not find card source file: #{cards}"
     end
     options[:cards] = cards
   end
+  opts.on("-o FILE", "--output FILE") do |file|
+    unless File.writable?(File.dirname(file))
+      raise ArgumentError, "Cannot write to #{File.dirname(file)}"
+    end
+    if File.exist?(file) && !File.writable?(file)
+      raise ArgumentError, "#{file} exists, but is not writable"
+    end
+    case File.extname(file)
+    when ".html"
+      options[:format] = "html"
+    when ".pdf"
+      options[:format] = "pdf"
+    else
+      raise ArgumentError, "Output file must be an html or pdf file"
+    end
+    options[:output] = file
+  end
   opts.on("-s CSS", "--stylesheet CSS") do |css|
     unless File.exist?(css)
       raise ArgumentError, "Could not find stylesheet: #{css}"
     end
-    options[:css] = css
-  end
-  opts.on("-h HTML", "--html HTML") do |html|
-    options[:html] = html
-  end
-  opts.on("-o FILE", "--output FILE") do |file|
-    unless File.writable?(dirname(file)) && (File.writable?(file) if File.exist?(file))
-      raise ArgumentError, "Cannot write to #{file}"
+    unless options[:format] == "html"
+      raise ArgumentError, "Cannot use a stylesheet unless you're outputting to HTML"
     end
-    options[:output] = file
+    options[:css] = css
   end
 end
 
@@ -53,15 +59,19 @@ rescue ArgumentError => e
   exit(-1)
 end
 
-puts options.inspect
+ENV["verbose"] = "true" if options[:verbose]
 
 deck = Deck.new(options[:cards])
-template = Template.new
-deck.map(&template.method(:<<))
-
 case options[:format]
   when "pdf"
-    template.to_pdf
+    destination = options[:output].nil? ? "export/rendered_#{Time.now.to_i}.pdf" : options[:output]
+    template = PdfTemplate.new(destination)
+    
   when "html"
-    template.to_html
+    destination = options[:output].nil? ? "export/rendered_#{Time.now.to_i}.html" : options[:output]
+    css = options[:css].nil? ? "import/default.css" : options[:css]
+    template = HtmlTemplate.new(destination, css)
 end
+
+deck.map(&template.method(:<<))
+template.render

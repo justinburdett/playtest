@@ -2,29 +2,20 @@ require 'template'
 
 describe "Template" do
 
-  let!(:default_html) { "spec/data/default.html" }
-  let!(:default_css) { "spec/data/default.css" }
+  let!(:destination) { "spec/data/export" }
+  let!(:template) { Template.new(destination) }
 
   describe "Constructor" do
-    it "instantiates with no arguments" do
-      expect(Template.new).to be_instance_of(Template)
+    it "cannot instantiate with no arguments" do
+      expect { Template.new }.to raise_error(ArgumentError)
     end
-    it "can override the html source" do
-      expect(Template.new(default_html)).to be_instance_of(Template)
-    end
-    it "can override the css source" do
-      expect(Template.new(nil, default_css)).to be_instance_of(Template)
+
+    it "instantiates with a destination path" do
+      expect(Template.new(destination)).to be_instance_of(Template)
     end
   end
 
   describe "Attributes" do
-    let!(:template) { Template.new(default_html, default_css) }
-    
-    it "allows public access to html and css source filenames" do
-      expect(template.html).to eq(default_html)
-      expect(template.css).to eq(default_css)
-    end
-    
     it "allows public access to the document content" do
       expect(template).to respond_to(:document)
     end
@@ -47,8 +38,6 @@ describe "Template" do
   end
 
   describe "Methods" do
-    let!(:template) { Template.new(default_html, default_css) }
-    
     context "when inserting new records via the << method" do
     
       it "inserts them into the cards store, tracked by unique_cards" do
@@ -73,23 +62,9 @@ describe "Template" do
       
     end
     
-    context "when outputting" do
-      describe "html format" do
-        it "has a to_html method" do
-          expect(template).to respond_to(:to_html)
-        end
-        it "dumps the results to an html file" do
-          pending("Stub out filesystem operations")
-        end
-      end
-      
-      describe "pdf format" do
-        it "has a to_pdf method" do
-          expect(template).to respond_to(:to_pdf)
-        end
-        it "dumps the results to a PDF file" do
-          pending("Check PDFKit API docs for test case details")
-        end
+    context "when rendering" do
+      it "has a render method" do
+        expect(template).to respond_to(:render)
       end
     end
   end

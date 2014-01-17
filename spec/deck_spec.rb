@@ -18,10 +18,7 @@ describe "Deck" do
   end
 
   describe "Attributes" do
-    
-  
     it "can access the cards read-only" do
-    puts Dir.pwd
       expect(deck.cards.count).to_not be_nil
       expect { deck.cards = 5 }.to raise_error(NoMethodError)
     end
