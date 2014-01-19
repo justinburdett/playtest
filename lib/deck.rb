@@ -12,9 +12,9 @@ class Deck
   def load(source_file)
     begin
       @cards = YAML.load_file(source_file)
-      puts "Loaded #{@cards.count} records from #{File.realpath(source_file)}"
+      puts("Loaded #{@cards.count} records from #{File.realpath(source_file)}") if ENV["verbose"]
     rescue Exception => e
-      puts "Cannot access #{source_file}"
+      puts("Cannot access #{source_file}") if ENV["verbose"]
     end
   end
   
