@@ -3,7 +3,7 @@ class HtmlTemplate < Template
 
   attr_reader :css
   
-  def initialize (destination, css)  
+  def initialize (destination, css = "import/default.css")  
     @css = css
     super(destination)
   end

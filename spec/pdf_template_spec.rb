@@ -7,10 +7,7 @@ describe "PdfTemplate" do
   let!(:template) { PdfTemplate.new(destination) }
   
   describe "Constructor" do
-    it "instantiates with no arguments" do
-      expect(PdfTemplate.new).to be_instance_of(PdfTemplate)
-    end
-    it "can also instantiate with an export filename" do
+    it "instantiates with an export filename" do
       expect(PdfTemplate.new(destination)).to be_instance_of(PdfTemplate)
     end
   end
